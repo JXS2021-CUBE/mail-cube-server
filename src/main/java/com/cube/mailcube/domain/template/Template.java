@@ -1,4 +1,4 @@
-package com.cube.mailcube.domain;
+package com.cube.mailcube.domain.template;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
