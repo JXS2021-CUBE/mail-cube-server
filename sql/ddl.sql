@@ -15,7 +15,7 @@ CREATE TABLE Employee(
 # Create Template table
 CREATE TABLE Template(
     id int AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
+	title varchar(50) NOT NULL,
     content varchar(3000) NOT NULL,
 
     PRIMARY KEY (id)
