@@ -1,16 +1,14 @@
 package com.cube.mailcube.domain.template;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "template")
 @NoArgsConstructor
@@ -19,13 +17,13 @@ public class Template {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Column(nullable = false)
-	private String name;
+	private String title;
 	@Column(nullable = false)
 	private String content;
 
 	@Builder
-	public Template(String name, String content) {
-		this.name = name;
+	public Template(String title, String content) {
+		this.title = title;
 		this.content = content;
 	}
 }
