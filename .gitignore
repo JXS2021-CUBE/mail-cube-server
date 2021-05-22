@@ -42,4 +42,5 @@ out/
 ### Mac system file ###
 .DS_Store
 
-application.yml
+### remove secrete file ###
+src/main/resources/application.yml
