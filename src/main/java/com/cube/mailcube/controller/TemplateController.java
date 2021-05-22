@@ -30,7 +30,6 @@ public class TemplateController {
                 URI.create("/templates/" + templateService.addTemplate(templateRequestDto))).build();
     }
 
-    // 수정 요방
     @PutMapping("/templates/{id}")
     public ResponseEntity<Object> updateTemplate(@RequestBody TemplateRequestDto templateRequestDto, @PathVariable Long id) {
         return templateService.getTemplateById(id)
@@ -41,7 +40,7 @@ public class TemplateController {
                     return ResponseEntity.ok().build();
                 })
                 .orElseGet(() -> ResponseEntity.badRequest().body(
-                        new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ErrorCase.NO_SUCH_TEMPLATE)));
+                        new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ErrorCase.INVALID_FIELD_ERROR)));
     }
 
     @DeleteMapping("/templates/{id}")

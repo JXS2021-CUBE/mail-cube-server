@@ -58,3 +58,12 @@ CREATE TABLE Sending(
     FOREIGN KEY (template_id) REFERENCES Template(id) ON UPDATE CASCADE,
     FOREIGN KEY (applicant_id) REFERENCES Applicant(id) ON UPDATE CASCADE
 );
+
+# Create excelfile table
+CREATE TABLE Excelfile(
+    id int AUTO_INCREMENT,
+    blob_url VARCHAR(100) NOT NULL,
+    datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id)
+);
