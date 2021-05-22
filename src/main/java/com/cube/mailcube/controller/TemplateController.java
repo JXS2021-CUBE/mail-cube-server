@@ -31,4 +31,18 @@ public class TemplateController {
 		return ResponseEntity.created(
 			URI.create("/templates/" + templateService.addTemplate(templateRequestDto))).build();
 	}
+
+	@GetMapping("/templates")
+	public ResponseEntity<Object> getAllTemplates() {
+		return ResponseEntity.ok().body(templateService.getAllTemplates());
+	}
+
+	@GetMapping("/templates/{id}")
+	public ResponseEntity<Object> getAllTemplates(@PathVariable Long id) {
+		Optional<Template> optionalTemplate = templateService.getTemplateById(id);
+		return optionalTemplate.<ResponseEntity<Object>>map(
+			template -> ResponseEntity.ok().body(optionalTemplate.get()))
+			.orElseGet(() -> ResponseEntity.badRequest().body(
+				new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ErrorCase.NO_SUCH_TEMPLATE)));
+	}
 }
