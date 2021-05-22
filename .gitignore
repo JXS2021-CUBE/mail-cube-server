@@ -41,3 +41,5 @@ out/
 
 ### Mac system file ###
 .DS_Store
+
+application.yml

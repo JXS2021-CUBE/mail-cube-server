@@ -15,7 +15,7 @@ CREATE TABLE Employee(
 # Create Template table
 CREATE TABLE Template(
     id int AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
+	title varchar(50) NOT NULL,
     content varchar(3000) NOT NULL,
 
     PRIMARY KEY (id)
@@ -57,4 +57,13 @@ CREATE TABLE Sending(
     FOREIGN KEY (employee_id) REFERENCES Employee(id) ON UPDATE CASCADE,
     FOREIGN KEY (template_id) REFERENCES Template(id) ON UPDATE CASCADE,
     FOREIGN KEY (applicant_id) REFERENCES Applicant(id) ON UPDATE CASCADE
+);
+
+# Create excelfile table
+CREATE TABLE Excelfile(
+    id int AUTO_INCREMENT,
+    blob_url VARCHAR(100) NOT NULL,
+    datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id)
 );
