@@ -1,0 +1,17 @@
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+spring:
+  datasource:
+    url: jdbc:mysql://jxs-2021.mysql.database.azure.com:3306/mail_cube?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=true&requireSSL=false
+  jpa:
+    database-platform:
+      org:
+        hibernate:
+          dialect:
+            MySQL5InnoDBDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
