@@ -19,13 +19,13 @@ public class Template {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Column(nullable = false)
-	private String name;
+	private String title;
 	@Column(nullable = false)
 	private String content;
 
 	@Builder
-	public Template(String name, String content) {
-		this.name = name;
+	public Template(String title, String content) {
+		this.title = title;
 		this.content = content;
 	}
 }

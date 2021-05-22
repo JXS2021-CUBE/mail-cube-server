@@ -18,7 +18,7 @@ public class TemplateService {
 	public String addTemplate(TemplateRequestDto templateRequestDto) {
 		Template template = templateRepository.save(
 			Template.builder()
-				.name(templateRequestDto.getTitle())
+				.title(templateRequestDto.getTitle())
 				.content(templateRequestDto.getContent())
 				.build());
 		return String.valueOf(template.getId());
