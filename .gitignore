@@ -1,9 +1,12 @@
-HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+### MAC OS ###
+.DS_Store
+sql/.DS_Store
 
 ### STS ###
 .apt_generated
