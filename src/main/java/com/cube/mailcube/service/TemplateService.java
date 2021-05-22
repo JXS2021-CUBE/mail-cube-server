@@ -18,10 +18,10 @@ public class TemplateService {
 	@Transactional
 	public String addTemplate(TemplateRequestDto templateRequestDto) {
 		Template template = templateRepository.save(
-				Template.builder()
-						.title(templateRequestDto.getTitle())
-						.content(templateRequestDto.getContent())
-						.build());
+    Template.builder()
+        .title(templateRequestDto.getTitle())
+        .content(templateRequestDto.getContent())
+        .build());
 		return String.valueOf(template.getId());
 	}
 
