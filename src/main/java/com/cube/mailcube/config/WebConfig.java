@@ -1,4 +1,4 @@
-package com.cube.mailcube.controller;
+package com.cube.mailcube.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
