@@ -58,13 +58,15 @@ public class EmailService {
                 String recipient_name = applicants.get(i).getName();
                 String recipient_email = applicants.get(i).getEmail();
 
-                String _title = title.replace("${name}", recipient_name);
-                String _content = content.replace("${name}", recipient_name);
+                if (!recipient_email.contains("@")) break;
 
                 MimeMessage message = new MimeMessage(session);
-//                message.setFrom(new InternetAddress(user));
+                message.setFrom(new InternetAddress(user));
                 message.setFrom(new InternetAddress(FROM, FROMNAME));
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient_email));
+
+                String _content = content.replace("${name}", recipient_name);
+                String _title = title.replace("${name}", recipient_name);
 
                 // 메일 제목
                 message.setSubject(_title);
@@ -72,7 +74,6 @@ public class EmailService {
                 message.setContent(_content, "text/html;charset=euc-kr");
                 // send the message
                 Transport.send(message);
-//            System.out.println("Success Message Send");
             }
         } catch (AddressException e) {
             e.printStackTrace();

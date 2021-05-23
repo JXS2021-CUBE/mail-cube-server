@@ -46,11 +46,12 @@ public class TemplateController {
     @DeleteMapping("/templates/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable Long id) {
         Optional<Template> template = templateService.getTemplateById(id);
-        System.out.println(template);
+
         if (!template.isPresent()) {
             return ResponseEntity.badRequest().body(
-                    new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ErrorCase.FAIL_FILE_DELETE_ERROR));
+                    new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ErrorCase.NO_SUCH_TEMPLATE));
         }
+
         templateService.deleteTemplate(id);
         return ResponseEntity.ok().build();
     }
