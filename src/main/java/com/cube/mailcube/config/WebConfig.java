@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOrigins("http://localhost:3000", "https://mail-cube-web.vercel.app:80", "https://mailcube-chorom.vercel.app:80", "https://www.test-cors.org:80")
+			.allowedOrigins("http://localhost:3000", "https://mail-cube-web.vercel.app:443", "https://mailcube-chorom.vercel.app:443", "https://www.test-cors.org:443")
 			.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH")
 			.exposedHeaders("Location");
 	}
