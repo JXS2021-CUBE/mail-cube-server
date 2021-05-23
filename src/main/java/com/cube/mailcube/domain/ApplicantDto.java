@@ -10,6 +10,4 @@ import lombok.*;
 public class ApplicantDto {
 	private String name;
 	private String email;
-
-
 }

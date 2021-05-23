@@ -38,12 +38,11 @@ public class FileLoadController {
     @GetMapping("/excels/{id}")
     public ResponseEntity<Object> getExcelFile(@PathVariable("id") Long id) {
         Optional<ExcelFile> excelFile = excelFileService.getExcelFilebyId(id);
-        if (!excelFile.isPresent()) {
-            return ResponseEntity.badRequest().body(
-                    new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ErrorCase.FAIL_FILE_CONVERT_ERROR));
-        }
-
-        return ResponseEntity.ok().body(excelFileService.getApplicants(excelFile.get().getBlob_url()));
+        return excelFile.<ResponseEntity<Object>>map(
+            file -> ResponseEntity.ok().body(excelFileService.getApplicants(file.getBlob_url())))
+            .orElseGet(() -> ResponseEntity.badRequest().body(
+                new ErrorMessage(HttpStatus.BAD_REQUEST.value(),
+                    ErrorCase.FAIL_FILE_CONVERT_ERROR)));
     }
 
     @GetMapping("/excels")
