@@ -14,14 +14,14 @@ import org.springframework.data.annotation.CreatedDate;
 
 @Getter
 @Entity
-@Table(name = "Excelfile")
+@Table(name = "excelfile")
 @NoArgsConstructor
 public class ExcelFile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Column(nullable = false)
-	private String blob_url;
+	private String s3_url;
 	@Column(nullable = false)
 	private String name;
 	@Column(updatable = false)
@@ -29,8 +29,8 @@ public class ExcelFile {
 	private Timestamp datetime;
 
 	@Builder
-	public ExcelFile(String blob_url, Timestamp datetime, String name) {
-		this.blob_url = blob_url;
+	public ExcelFile(String s3_url, Timestamp datetime, String name) {
+		this.s3_url = s3_url;
 		this.datetime = datetime;
 		this.name = name;
 	}
