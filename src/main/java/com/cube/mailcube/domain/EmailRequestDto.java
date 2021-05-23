@@ -12,6 +12,4 @@ public class EmailRequestDto {
     private final String content;
     private final String senderName;
     private final String senderEmail;
-
-
 }
