@@ -2,86 +2,77 @@ package com.cube.mailcube.service;
 
 import com.cube.mailcube.domain.ApplicantDto;
 import com.cube.mailcube.domain.EmailRequestDto;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class EmailService {
 
-    private final ExcelFileService excelFileService;
+	private final ExcelFileService excelFileService;
 
-    //    public List<ApplicantDto> sendEmail(String title, String content, String senderName, String senderEmail,  List<ApplicantDto> applicants) {
-    public List<ApplicantDto> sendEmail(EmailRequestDto emailRequestDto, Long id) {
+	public boolean sendEmail(EmailRequestDto emailRequestDto, List<ApplicantDto> applicants) {
+		String title = emailRequestDto.getTitle();
+		String content = emailRequestDto.getContent();
+		String senderName = emailRequestDto.getSenderName();
+		String senderEmail = emailRequestDto.getSenderEmail();
 
-        List<ApplicantDto> applicants = excelFileService.getApplicants(excelFileService.getExcelFilebyId(id).get().getBlob_url());
+		String host = "smtp.gmail.com";
+		String user = "gimquokka@gmail.com";
+		String password = "rlawlsdud*5097";
 
-        String title = emailRequestDto.getTitle();
-        String content = emailRequestDto.getContent();
-        String senderName = emailRequestDto.getSenderName();
-        String senderEmail = emailRequestDto.getSenderEmail();
+		String FROM = senderEmail;
+		String FROMNAME = senderName;
 
-        String host = "smtp.gmail.com";
-        String user = "gimquokka@gmail.com";
-        String password = "rlawlsdud*5097";
+		Properties props = new Properties();
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", 465);
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.ssl.trust", host);
+		props.put("mail.smtp.ssl.enable", "true");
 
-        String FROM = senderEmail;
-        String FROMNAME = senderName;
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(user, password);
+			}
+		});
 
-        Properties props = new Properties();
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", 465);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.trust", host);
-        props.put("mail.smtp.ssl.enable", "true");
+		try {
+			for (ApplicantDto applicant : applicants) {
+				String recipient_name = applicant.getName();
+				String recipient_email = applicant.getEmail();
 
+                if (!recipient_email.contains("@")) {
+                    break;
+                }
 
-        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(user, password);
-            }
-        });
+				MimeMessage message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(user));
+				message.setFrom(new InternetAddress(senderEmail, FROMNAME));
+				message
+					.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient_email));
 
-        try {
-            for (int i = 0; i < applicants.size(); i++) {
-                String recipient_name = applicants.get(i).getName();
-                String recipient_email = applicants.get(i).getEmail();
+				String _content = content.replace("${name}", recipient_name);
+				String _title = title.replace("${name}", recipient_name);
 
-                if (!recipient_email.contains("@")) break;
-
-                MimeMessage message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(user));
-                message.setFrom(new InternetAddress(FROM, FROMNAME));
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient_email));
-
-                String _content = content.replace("${name}", recipient_name);
-                String _title = title.replace("${name}", recipient_name);
-
-                // 메일 제목
-                message.setSubject(_title);
-                // 메일 내용
-                message.setContent(_content, "text/html;charset=euc-kr");
-                // send the message
-                Transport.send(message);
-            }
-        } catch (AddressException e) {
-            e.printStackTrace();
-        } catch (javax.mail.MessagingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return applicants;
-    }
+				message.setSubject(_title);
+				message.setContent(_content, "text/html;charset=euc-kr");
+				Transport.send(message);
+			}
+		} catch (MessagingException | UnsupportedEncodingException e) {
+			System.err.println(e.getMessage());
+			return false;
+		}
+		return true;
+	}
 }
