@@ -9,6 +9,23 @@ cache:
   - "$HOME/.m2/repository"
   - "$HOME/.gradle"
 script: "./gradlew clean build -x test"
+before_deploy:
+- zip -r mail-cube-server *
+- mkdir -p deploy
+- mv mail-cube-server.zip deploy/mail-cube-server.zip
+deploy:
+- provider: s3
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
+  bucket: mail-cube-storage
+  region: ap-northeast-2
+  skip_cleanup: true
+  acl: public_read
+  wait-until-deployed: true
+  local_dir: deploy
+  on:
+    repo: JXS2021-CUBE/mail-cube-server
+    branch: master
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_cbbf36167afb_key -iv $encrypted_cbbf36167afb_iv
