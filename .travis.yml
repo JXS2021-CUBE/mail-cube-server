@@ -46,11 +46,11 @@ deploy:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_cbbf36167afb_key -iv $encrypted_cbbf36167afb_iv
-  -in application-aws.tar.enc -out application-aws.tar -d
+  -in src/main/resources/application-aws.tar.enc -out src/main/resources/application-aws.tar -d
 - openssl aes-256-cbc -K $encrypted_5c967de37745_key -iv $encrypted_5c967de37745_iv
-  -in application.tar.enc -out application.tar -d
-- tar vxf application.tar
-- tar vxf application-aws.tar
+  -in src/main/resources/application.tar.enc -out src/main/resources/application.tar -d
+- tar vxf src/main/resources/application.tar
+- tar vxf src/main/resources/application-aws.tar
 
 notifications:
   email:
