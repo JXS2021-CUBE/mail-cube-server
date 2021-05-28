@@ -1,6 +1,7 @@
 language: java
 jdk:
 - openjdk8
+
 branches:
   only:
   - master
@@ -8,21 +9,37 @@ cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.gradle"
+
 script: "./gradlew clean build -x test"
+
 before_deploy:
 - zip -r mail-cube-server *
 - mkdir -p deploy
 - mv mail-cube-server.zip deploy/mail-cube-server.zip
+
 deploy:
 - provider: s3
-  access_key_id: "$AWS_ACCESS_KEY"
-  secret_access_key: "$AWS_SECRET_KEY"
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
   bucket: mail-cube-storage
   region: ap-northeast-2
   skip_cleanup: true
   acl: public_read
   wait-until-deployed: true
   local_dir: deploy
+  on:
+    repo: JXS2021-CUBE/mail-cube-server
+    branch: master
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: mail-cube-storage
+  key: mail-cube-server.zip
+  bundle_type: zip
+  application: mail-cube-server
+  deployment_group: mail-cube-server
+  region: ap-northeast-2
+  wait-until-deployed: true
   on:
     repo: JXS2021-CUBE/mail-cube-server
     branch: master
